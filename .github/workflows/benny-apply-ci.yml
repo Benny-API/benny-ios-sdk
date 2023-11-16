@@ -9,7 +9,7 @@ jobs:
       matrix:
         destination: ['platform=iOS Simulator,OS=17.0.1,name=iPhone 15 Pro']
         os: [macos-latest]
-        swift: ["5.9"]
+        swift: ["5.7"]
     runs-on: macOS-latest
     steps:
         - uses: actions/checkout@v4
