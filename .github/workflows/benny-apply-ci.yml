@@ -1,0 +1,28 @@
+name: Benny Apply CI
+
+on: [push]
+
+jobs:
+  build-test:
+    name: Benny Apply CI
+    strategy:
+      matrix:
+        destination: ['platform=iOS Simulator,OS=17.0.1,name=iPhone 15 Pro']
+        os: [macos-latest]
+        swift: ["5.9"]
+    runs-on: macOS-latest
+    steps:
+        - uses: actions/checkout@v4
+        - name: Build
+          working-directory: ./
+          run: | 
+            xcodebuild clean build -scheme BennySDK -destination "${destination}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+          env: 
+            destination: ${{ matrix.destination }}
+        
+        - name: Run tests
+          run: |
+            xcodebuild test -scheme BennySDK -destination "${destination}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
+          env: 
+            destination: ${{ matrix.destination }}
+        - run: echo "🍏 This job's status is ${{ job.status }}."
