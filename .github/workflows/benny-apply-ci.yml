@@ -9,11 +9,11 @@ jobs:
       matrix:
         destination: ['platform=iOS Simulator,OS=17.0.1,name=iPhone 15 Pro']
         os: [macos-latest]
-        swift: ["5.8"]
+        swift: ["5.9"]
     runs-on: macOS-latest
     steps:
         - uses: actions/checkout@v4
-        - uses: swift-actions/setup-swift@65540b95f51493d65f5e59e97dcef9629ddf11bf
+        - uses: SwiftyLab/setup-swift@latest
           with:
             swift-version: ${{ matrix.swift }}
         - name: Build
