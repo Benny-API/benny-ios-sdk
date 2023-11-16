@@ -13,6 +13,9 @@ jobs:
     runs-on: macOS-13
     steps:
         - uses: actions/checkout@v4
+        - run: |
+            xcodebuild -version
+            xcodebuild -showsdks
         - name: Build
           run: | 
             xcodebuild clean build -scheme BennySDK -destination "${destination}" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO ONLY_ACTIVE_ARCH=NO
