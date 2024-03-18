@@ -9,7 +9,7 @@ import Foundation
 import BennySDK
 import SwiftUI
 
-class ExampleBennyApplyListener: BennyApplyListenerDelegate {
+class ExampleEbtBalanceListener: EbtBalanceListenerDelegate {
     var isPresentingView: Binding<Bool>
     
     init(isPresentingView: Binding<Bool>) {

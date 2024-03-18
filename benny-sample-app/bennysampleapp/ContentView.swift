@@ -24,7 +24,7 @@ struct ContentView: View {
     }
     
     var controller: BennyApplyViewControllerRepresentable {
-        let bennyApplyParams = BennyApplyParameters(organizationId: "org_ne8x62s1yk5vgtup4g1240lh", externalId: "example", environment: Environment.STAGING)
+        let bennyApplyParams = BennyApplyParameters(organizationId: "org_ne8x62s1yk5vgtup4g1240lh", externalId: "example", environment: Environment.SANDBOX)
         let listener = ExampleBennyApplyListener(isPresentingView: $isPresentingViewController)
         return BennyApplyViewControllerRepresentable(parameters: bennyApplyParams, delegate: listener)
     }
