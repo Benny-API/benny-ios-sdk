@@ -30,7 +30,7 @@ public class EbtBalanceViewController: UIViewController, WKNavigationDelegate {
         default:
             baseUrl = ebtBalanceProductionURL
         }
-        webResource = baseUrl + "/?organizationId=" + parameters.organizationId + "&isWebView=true"
+        webResource = baseUrl + "/?organizationId=" + parameters.organizationId + "&temporaryLink=" + parameters.temporaryLink
         self.organizationId = parameters.organizationId
         self.webViewVM = BaseWebViewVM(webResource: webResource)
         self.bennyView = webViewVM.webView

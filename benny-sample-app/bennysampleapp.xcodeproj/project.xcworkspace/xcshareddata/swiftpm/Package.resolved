@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Benny-API/benny-ios-sdk.git",
       "state" : {
-        "branch" : "main",
-        "revision" : "8e196696a6ac2aedfd8c19ed5b7c025fa837df22"
+        "branch" : "ab-ebt-balance",
+        "revision" : "ae95c531ff4dd7f1e68f84d95d7fcd91e59d6b47"
       }
     }
   ],

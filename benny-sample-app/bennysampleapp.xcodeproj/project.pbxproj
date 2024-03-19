@@ -12,6 +12,7 @@
 		5F4234642B02E00F00E21871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F4234632B02E00F00E21871 /* Assets.xcassets */; };
 		5F4234672B02E00F00E21871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F4234662B02E00F00E21871 /* Preview Assets.xcassets */; };
 		5F42348F2B03E63200E21871 /* ExampleListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F42348E2B03E63200E21871 /* ExampleListener.swift */; };
+		5F4C106D2BA94B4F0012E6D2 /* BennySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5F4C106C2BA94B4F0012E6D2 /* BennySDK */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5F4C106D2BA94B4F0012E6D2 /* BennySDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,6 +97,7 @@
 			);
 			name = bennysampleapp;
 			packageProductDependencies = (
+				5F4C106C2BA94B4F0012E6D2 /* BennySDK */,
 			);
 			productName = bennysampleapp;
 			productReference = 5F42345C2B02E00D00E21871 /* bennysampleapp.app */;
@@ -305,9 +308,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Benny-API.bennysampleapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -335,9 +342,13 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "Benny-API.bennysampleapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -369,11 +380,19 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Benny-API/benny-ios-sdk.git";
 			requirement = {
-				branch = main;
+				branch = "ab-ebt-balance";
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5F4C106C2BA94B4F0012E6D2 /* BennySDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5F021C1B2B067FDE00686E24 /* XCRemoteSwiftPackageReference "benny-ios-sdk" */;
+			productName = BennySDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5F4234542B02E00D00E21871 /* Project object */;
 }

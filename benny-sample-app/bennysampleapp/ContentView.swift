@@ -24,11 +24,11 @@ struct ContentView: View {
     }
     
     var controller: EbtBalanceViewControllerRepresentable {
-        let ebtBalanceParams = EbtBalancePararmeters(organizationId: "org_ne8x62s1yk5vgtup4g1240lh", temporaryLink: "example", environment: Environment.SANDBOX)
+        let ebtBalanceParams = EbtBalanceParameters(organizationId: "org_wup29bz683g8habsxvazvyz1", environment: Environment.SANDBOX, temporaryLink: "example")
         let listener = ExampleEbtBalanceListener(isPresentingView: $isPresentingViewController)
         return EbtBalanceViewControllerRepresentable(parameters: ebtBalanceParams, delegate: listener)
     }
-}r
+}
 
 #Preview {
     ContentView()
