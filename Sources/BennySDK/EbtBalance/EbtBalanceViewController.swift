@@ -10,7 +10,7 @@ import UIKit
 import WebKit
 
 private var ebtBalanceProductionURL = "https://ebtbalance.bennyapi.com"
-private var ebtBalanceSandboxURL =  "http://localhost:3000" //"https://ebtbalance-sandbox.bennyapi.com"
+private var ebtBalanceSandboxURL = "https://ebtbalance-sandbox.bennyapi.com"
 
 public class EbtBalanceViewController: UIViewController, WKNavigationDelegate {
     var organizationId: String
