@@ -11,9 +11,11 @@ class BaseWebViewVM: ObservableObject {
         self.webResource = webResource
         webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
         
+        #if DEBUG
         if #available(iOS 16.4, *) {
-            self.webView.isInspectable = true
+            webView.isInspectable = true
         }
+        #endif
     
     }
 
