@@ -47,28 +47,42 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
         delegate?.onCopyToClipboard(text: text)
     }
     
+    func getJsonData<T: Decodable>(message: WKScriptMessage, type: T.Type) throws -> T {
+        guard let jsonString = message.body as? String else {
+             throw NSError(domain: "InvalidMessageError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Message body is not a valid string."])
+         }
+
+         guard let jsonData = jsonString.data(using: .utf8) else {
+             throw NSError(domain: "InvalidJSONError", code: 0, userInfo: [NSLocalizedDescriptionKey: "The string could not be converted to JSON data."])
+         }
+        return try JSONDecoder().decode(T.self, from: jsonData)
+    }
+    
     
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         switch message.name {
         case "onExit":
             self.onExit()
         case "onLinkSuccess":
-            if let linkSuccessMessage = message.body as? LinkSuccessMessage {
+            do {
+                let linkSuccessMessage = try getJsonData(message: message, type: LinkSuccessMessage.self)
                 self.onLinkSuccess(linkToken: linkSuccessMessage.linkToken)
-            } else {
-                fatalError("Link token is not a valid string.")
+            } catch {
+                fatalError("Error getting link token.")
             }
         case "onOpenUrl":
-            if let url = message.body as? String {
-                self.onOpenUrl(url: url)
-            } else {
-                fatalError("Url is not valid.")
+            do {
+                let openUrlMessage = try getJsonData(message: message, type: OpenUrlMessage.self)
+                self.onOpenUrl(url: openUrlMessage.url)
+            } catch {
+                fatalError("Error getting url.")
             }
         case "onCopyToClipboard":
-            if let clipboardMessage = message.body as? CopyToClipboardMessage {
-                self.onCopyToClipboard(text: clipboardMessage.text)
-            } else {
-                fatalError("Text not available to copy.")
+            do {
+                let copyToClipboardMessage = try getJsonData(message: message, type: CopyToClipboardMessage.self)
+                self.onCopyToClipboard(text: copyToClipboardMessage.text)
+            } catch {
+                fatalError("Error copying to clipboard.")
             }
         default:
             return

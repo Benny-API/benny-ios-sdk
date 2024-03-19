@@ -32,7 +32,7 @@ public struct CopyToClipboardMessage: Codable {
 }
 
 public struct LinkSuccessMessage: Codable {
-    var type = "LinkSuccess"
+    var type: String
     var linkToken: String
 }
 
