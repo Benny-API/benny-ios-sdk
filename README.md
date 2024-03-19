@@ -1,22 +1,30 @@
-# Benny SDK 
-The Benny SDK is used to embed Benny supported flows within your native iOS app. Using these embedded flows, end users will be able to be able to use our products such as Ebt Balance.
+# Benny iOS SDK 
+The Benny iOS SDK allows your iOS app to use Benny client libraries.
 
->Note: Complete documentation at [docs.bennyapi.com](bennyapi.com).
+> **Note**
+> See our complete documentation at [docs.bennyapi.com](https://docs.bennyapi.com).
 
+### Installation 
+#### Swift Package Manager
+Install by adding the GitHub package as a dependency to your app. 
 
-## Installation 
+## Usage 
 
-### Swift Package Manager
-Install by adding our github as a package dependency to your app. 
+### EBT Balance Link Flow
 
-## Flow Usage 
-### Ebt Balance Flow
-To use the Ebt Balance Flow, you'll need an organization id. For each user session, you'll also need a unique external id to identify the end user.
+The Ebt Balance Link Flow allows users to link their EBT account, verifying the account, and
+returning a tokenized representation of the credentials for fetching balance and transaction
+information.
 
->**NOTE:** If you do not have an organization id, please reach out to the help@bennyapi.com to setup your oganization. 
+#### Required IDs
+You'll need an `organizationId`, the ID representing your organization, along with
+a `temporarylink` that is generated serverside via a call to the Benny API.
+
+> **Note**
+> Reach out to [help@bennyapi.com](help@bennyapi.com) to set up your organization.
 
 #### Integration 
-The Ebt Balance flow is accessed through a simple UIViewController, or UIViewControllerRepresentable if needed.
+The Ebt Balance flow is accessed through a simple `UIViewController`, or `UIViewControllerRepresentable` if needed.
  
 ```swift
 import BennySDK
@@ -24,8 +32,8 @@ import BennySDK
 let controller = EbtBalanceViewController(parameters: ebtBalanceParams, delegate: listener)
 ```
 
-#### Listening for Events
-The EbtBalanceListenerDelegate is responsible for communicating to your native app when the  user wants to end the current session or request a data exchange. The delegate must comform to the following protocol:
+#### Listening for Flow Events
+The `EbtBalanceListenerDelegate` is responsible for communicating to your Android app when the user wants to exit the flow and when a link is successful.
 
 ```swift
 public protocol EbtBalanceListenerDelegate {
