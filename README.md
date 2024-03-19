@@ -33,7 +33,7 @@ let controller = EbtBalanceViewController(parameters: ebtBalanceParams, delegate
 ```
 
 #### Listening for Flow Events
-The `EbtBalanceListenerDelegate` is responsible for communicating to your Android app when the user wants to exit the flow and when a link is successful.
+The `EbtBalanceListenerDelegate` is responsible for communicating to your iOS app when the user wants to exit the flow and when a link is successful.
 
 ```swift
 public protocol EbtBalanceListenerDelegate {
