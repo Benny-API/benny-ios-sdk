@@ -36,7 +36,8 @@ let controller = EbtBalanceViewControllerRepresentable(
         organizationId: "org_wup29bz683g8habsxvazvyz1",
         environment: Environment.SANDBOX,
         temporaryLink: "temp_clr0vujq9000108l66odc7fxv"
-), delegate: listener)
+    ), 
+    delegate: listener)
 ```
 
 To start the EBT Balance flow, present the view controller or representable. 
