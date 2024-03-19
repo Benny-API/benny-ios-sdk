@@ -6,10 +6,10 @@
 //
 
 import Foundation
-import BennySDK
 import SwiftUI
+import BennySDK
 
-class ExampleBennyApplyListener: BennyApplyListenerDelegate {
+class ExampleEbtBalanceListener: EbtBalanceListenerDelegate {
     var isPresentingView: Binding<Bool>
     
     init(isPresentingView: Binding<Bool>) {
@@ -21,8 +21,15 @@ class ExampleBennyApplyListener: BennyApplyListenerDelegate {
         isPresentingView.wrappedValue.toggle()
     }
     
-    func onDataExchange(applicantDataId: String) {
-        print("data exchange commenced")
-        print(applicantDataId)
+    func onLinkSuccess(linkToken: String) {
+        print("link success")
+        print(linkToken)
+    }
+    
+    func onCopyToClipboard(text: String) {
+        print(text)
+    }
+    func onOpenUrl(url: String) {
+        print(url)
     }
 }
