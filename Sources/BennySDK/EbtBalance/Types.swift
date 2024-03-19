@@ -24,3 +24,19 @@ public struct EbtBalanceParameters: Codable {
 public enum Environment: Codable {
     case PRODUCTION, SANDBOX
 }
+
+public struct CopyToClipboardMessage: Codable {
+    var type = "CopyToClipboard"
+    var label: String
+    var text: String
+}
+
+public struct LinkSuccessMessage: Codable {
+    var type = "LinkSuccess"
+    var linkToken: String
+}
+
+public struct OpenUrlMessage: Codable {
+    var type = "OpenUrlExternally"
+    var url: String
+}

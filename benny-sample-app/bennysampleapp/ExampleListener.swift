@@ -22,7 +22,7 @@ class ExampleEbtBalanceListener: EbtBalanceListenerDelegate {
     }
     
     func onLinkSuccess(linkToken: String) {
-        print("data exchange commenced")
+        print("link success")
         print(linkToken)
     }
 }

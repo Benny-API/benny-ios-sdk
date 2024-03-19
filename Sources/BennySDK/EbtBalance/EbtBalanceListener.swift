@@ -11,6 +11,8 @@ import WebKit
 public protocol EbtBalanceListenerDelegate : AnyObject {
     func onExit()
     func onLinkSuccess(linkToken: String)
+    func onCopyToClipboard(text: String)
+    func onOpenUrl(url: String)
 }
 
 public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
@@ -22,10 +24,10 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
         super.init()
         let userContentController = self.webView?.configuration.userContentController
         userContentController?.removeAllScriptMessageHandlers()
-        self.webView?.configuration.userContentController.add(self, name: "Exit")
-        self.webView?.configuration.userContentController.add(self, name: "CopyToClipboard")
-        self.webView?.configuration.userContentController.add(self, name: "LinkSuccess")
-        self.webView?.configuration.userContentController.add(self, name: "OpenUrlExternally")
+        self.webView?.configuration.userContentController.add(self, name: "onExit")
+        self.webView?.configuration.userContentController.add(self, name: "onCopyToClipboard")
+        self.webView?.configuration.userContentController.add(self, name: "onLinkSuccess")
+        self.webView?.configuration.userContentController.add(self, name: "onOpenUrl")
     }
     
     
@@ -37,16 +39,36 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
         delegate?.onLinkSuccess(linkToken: linkToken)
     }
     
+    func onOpenUrl(url: String) {
+        delegate?.onOpenUrl(url: url)
+    }
+    
+    func onCopyToClipboard(text: String) {
+        delegate?.onCopyToClipboard(text: text)
+    }
+    
     
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         switch message.name {
-        case "Exit":
+        case "onExit":
             self.onExit()
-        case "LinkSuccess":
-            if let linkToken = message.body as? String {
-                self.onLinkSuccess(linkToken: linkToken)
+        case "onLinkSuccess":
+            if let linkSuccessMessage = message.body as? LinkSuccessMessage {
+                self.onLinkSuccess(linkToken: linkSuccessMessage.linkToken)
             } else {
                 fatalError("Link token is not a valid string.")
+            }
+        case "onOpenUrl":
+            if let url = message.body as? String {
+                self.onOpenUrl(url: url)
+            } else {
+                fatalError("Url is not valid.")
+            }
+        case "onCopyToClipboard":
+            if let clipboardMessage = message.body as? CopyToClipboardMessage {
+                self.onCopyToClipboard(text: clipboardMessage.text)
+            } else {
+                fatalError("Text not available to copy.")
             }
         default:
             return
