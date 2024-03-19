@@ -12,12 +12,12 @@ import Foundation
 
 public struct EbtBalanceParameters: Codable {
     var organizationId: String
-    var externalId: String
+    var temporaryLink: String
     var environment: Environment?
-    public init(organizationId: String, externalId: String, environment: Environment) {
+    public init(organizationId: String, environment: Environment, temporaryLink: String) {
         self.organizationId = organizationId
-        self.externalId = externalId
         self.environment = environment
+        self.temporaryLink = temporaryLink
     }
 }
 

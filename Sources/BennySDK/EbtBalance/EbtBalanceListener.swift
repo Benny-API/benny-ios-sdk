@@ -11,7 +11,6 @@ import WebKit
 public protocol EbtBalanceListenerDelegate : AnyObject {
     func onExit()
     func onLinkSuccess(linkToken: String)
-    func openUrlExternally(url: String)
 }
 
 public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
@@ -39,10 +38,6 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
     }
     
     
-    func openUrlExternally(url: String) {
-        delegate?.openUrlExternally(url: url)
-    }
-    
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         switch message.name {
         case "Exit":
@@ -52,12 +47,6 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
                 self.onLinkSuccess(linkToken: linkToken)
             } else {
                 fatalError("Link token is not a valid string.")
-            }
-        case "OpenUrlExternally":
-            if let url = message.body as? String {
-                self.openUrlExternally(url: url)
-            } else {
-                fatalError("External url is not a valid url.")
             }
         default:
             return

@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5F021C1D2B067FDE00686E24 /* BennySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5F021C1C2B067FDE00686E24 /* BennySDK */; };
 		5F021C1F2B07DAD800686E24 /* BennySampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F021C1E2B07DAD800686E24 /* BennySampleApp.swift */; };
 		5F4234622B02E00D00E21871 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4234612B02E00D00E21871 /* ContentView.swift */; };
 		5F4234642B02E00F00E21871 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F4234632B02E00F00E21871 /* Assets.xcassets */; };
 		5F4234672B02E00F00E21871 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5F4234662B02E00F00E21871 /* Preview Assets.xcassets */; };
-		5F42348B2B02E02600E21871 /* BennySDK in Frameworks */ = {isa = PBXBuildFile; productRef = 5F42348A2B02E02600E21871 /* BennySDK */; };
 		5F42348F2B03E63200E21871 /* ExampleListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F42348E2B03E63200E21871 /* ExampleListener.swift */; };
 /* End PBXBuildFile section */
 
@@ -30,8 +28,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F021C1D2B067FDE00686E24 /* BennySDK in Frameworks */,
-				5F42348B2B02E02600E21871 /* BennySDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +39,7 @@
 			children = (
 				5F42345E2B02E00D00E21871 /* bennysampleapp */,
 				5F42345D2B02E00D00E21871 /* Products */,
+				5F59F51F2BA8E86000D459B9 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -74,6 +71,13 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		5F59F51F2BA8E86000D459B9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -91,8 +95,6 @@
 			);
 			name = bennysampleapp;
 			packageProductDependencies = (
-				5F42348A2B02E02600E21871 /* BennySDK */,
-				5F021C1C2B067FDE00686E24 /* BennySDK */,
 			);
 			productName = bennysampleapp;
 			productReference = 5F42345C2B02E00D00E21871 /* bennysampleapp.app */;
@@ -372,18 +374,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		5F021C1C2B067FDE00686E24 /* BennySDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 5F021C1B2B067FDE00686E24 /* XCRemoteSwiftPackageReference "benny-ios-sdk" */;
-			productName = BennySDK;
-		};
-		5F42348A2B02E02600E21871 /* BennySDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = BennySDK;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5F4234542B02E00D00E21871 /* Project object */;
 }

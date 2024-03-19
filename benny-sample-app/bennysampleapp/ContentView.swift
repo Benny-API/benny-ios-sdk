@@ -14,7 +14,7 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 Text("Hello!")
-                Button("Present Benny Apply View Controller") {
+                Button("Present Ebt Balance View Controller") {
                     isPresentingViewController.toggle()
                 }.sheet(isPresented: $isPresentingViewController, content: {
                     controller
@@ -23,12 +23,12 @@ struct ContentView: View {
         }
     }
     
-    var controller: BennyApplyViewControllerRepresentable {
-        let bennyApplyParams = BennyApplyParameters(organizationId: "org_ne8x62s1yk5vgtup4g1240lh", externalId: "example", environment: Environment.SANDBOX)
-        let listener = ExampleBennyApplyListener(isPresentingView: $isPresentingViewController)
-        return BennyApplyViewControllerRepresentable(parameters: bennyApplyParams, delegate: listener)
+    var controller: EbtBalanceViewControllerRepresentable {
+        let ebtBalanceParams = EbtBalancePararmeters(organizationId: "org_ne8x62s1yk5vgtup4g1240lh", temporaryLink: "example", environment: Environment.SANDBOX)
+        let listener = ExampleEbtBalanceListener(isPresentingView: $isPresentingViewController)
+        return EbtBalanceViewControllerRepresentable(parameters: ebtBalanceParams, delegate: listener)
     }
-}
+}r
 
 #Preview {
     ContentView()

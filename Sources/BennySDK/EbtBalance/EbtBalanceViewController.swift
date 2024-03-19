@@ -30,7 +30,7 @@ public class EbtBalanceViewController: UIViewController, WKNavigationDelegate {
         default:
             baseUrl = ebtBalanceProductionURL
         }
-        webResource = baseUrl + "/?organizationId=" + parameters.organizationId + "&externalId=" + parameters.externalId + "&isWebView=true"
+        webResource = baseUrl + "/?organizationId=" + parameters.organizationId + "&isWebView=true"
         self.organizationId = parameters.organizationId
         self.webViewVM = BaseWebViewVM(webResource: webResource)
         self.bennyView = webViewVM.webView
@@ -54,12 +54,12 @@ public class EbtBalanceViewController: UIViewController, WKNavigationDelegate {
 public struct EbtBalanceViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewType = WKWebView
     var orgId: String
-    var externalId: String
+    var temporaryLink: String
     var viewController: EbtBalanceViewController
     
     public init(parameters: EbtBalanceParameters, delegate: EbtBalanceListenerDelegate?) {
         self.orgId = parameters.organizationId
-        self.externalId = parameters.externalId
+        self.temporaryLink = parameters.temporaryLink
         self.viewController = EbtBalanceViewController(parameters: parameters, delegate: delegate)
     }
     

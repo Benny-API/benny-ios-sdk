@@ -21,8 +21,8 @@ class ExampleEbtBalanceListener: EbtBalanceListenerDelegate {
         isPresentingView.wrappedValue.toggle()
     }
     
-    func onDataExchange(applicantDataId: String) {
+    func onLinkSuccess(linkToken: String) {
         print("data exchange commenced")
-        print(applicantDataId)
+        print(linkToken)
     }
 }

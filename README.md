@@ -1,5 +1,5 @@
 # Benny SDK 
-The Benny SDK is used to embed Benny supported flows within your native iOS app. Using these embedded flows, end users will be able to be able to use our products such as Benny Apply.
+The Benny SDK is used to embed Benny supported flows within your native iOS app. Using these embedded flows, end users will be able to be able to use our products such as Ebt Balance.
 
 >Note: Complete documentation at [docs.bennyapi.com](bennyapi.com).
 
@@ -30,7 +30,7 @@ The EbtBalanceListenerDelegate is responsible for communicating to your native a
 ```swift
 public protocol EbtBalanceListenerDelegate {
     func onExit()
-    func onDataExchange(applicantDataId: String)
+    func onLinkSuccess(linkToken: String)
 }
 ```
 
