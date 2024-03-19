@@ -10,6 +10,11 @@ class BaseWebViewVM: ObservableObject {
     init(webResource: String? = nil) {
         self.webResource = webResource
         webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
+        
+        if #available(iOS 16.4, *) {
+            self.webView.isInspectable = true
+        }
+    
     }
 
     func loadWebPage() {
