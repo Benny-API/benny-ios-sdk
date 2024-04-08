@@ -11,8 +11,6 @@ import WebKit
 public protocol EbtBalanceListenerDelegate : AnyObject {
     func onExit()
     func onLinkSuccess(linkToken: String)
-    func onCopyToClipboard(text: String)
-    func onOpenUrl(url: String)
 }
 
 public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
@@ -39,12 +37,15 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
         delegate?.onLinkSuccess(linkToken: linkToken)
     }
     
-    func onOpenUrl(url: String) {
-        delegate?.onOpenUrl(url: url)
+    func onOpenUrl(urlString: String) {
+        guard let url = URL(string: urlString) else {
+          return
+        }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
     
     func onCopyToClipboard(text: String) {
-        delegate?.onCopyToClipboard(text: text)
+        UIPasteboard.generalPasteboard().string = text
     }
     
     func getJsonData<T: Decodable>(message: WKScriptMessage, type: T.Type) throws -> T {
@@ -73,7 +74,7 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
         case "onOpenUrl":
             do {
                 let openUrlMessage = try getJsonData(message: message, type: OpenUrlMessage.self)
-                self.onOpenUrl(url: openUrlMessage.url)
+                self.onOpenUrl(urlString: openUrlMessage.url)
             } catch {
                 fatalError("Error getting url.")
             }
