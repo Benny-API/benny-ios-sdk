@@ -25,11 +25,4 @@ class ExampleEbtBalanceListener: EbtBalanceListenerDelegate {
         print("link success")
         print(linkToken)
     }
-    
-    func onCopyToClipboard(text: String) {
-        print(text)
-    }
-    func onOpenUrl(url: String) {
-        print(url)
-    }
 }
