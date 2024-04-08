@@ -45,7 +45,7 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
     }
     
     func onCopyToClipboard(text: String) {
-        UIPasteboard.generalPasteboard().string = text
+        UIPasteboard.general.string = text
     }
     
     func getJsonData<T: Decodable>(message: WKScriptMessage, type: T.Type) throws -> T {
