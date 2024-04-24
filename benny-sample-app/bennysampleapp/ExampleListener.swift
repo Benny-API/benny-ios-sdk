@@ -34,5 +34,4 @@ class ExampleEbtBalanceListener: EbtBalanceListenerDelegate {
         print("link result")
         print((result.result as LinkResultSuccess).linkToken)
     }
-
 }
