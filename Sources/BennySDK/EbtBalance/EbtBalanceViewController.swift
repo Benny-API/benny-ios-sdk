@@ -17,7 +17,7 @@ public class EbtBalanceViewController: UIViewController, WKNavigationDelegate {
     var webViewVM: BaseWebViewVM
     var bennyView: WKWebView
     var delegate: EbtBalanceListenerDelegate?
-    
+
     public init(parameters: EbtBalanceParameters, delegate: EbtBalanceListenerDelegate?) {
         var webResource: String
         var baseUrl: String
@@ -37,19 +37,19 @@ public class EbtBalanceViewController: UIViewController, WKNavigationDelegate {
         self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     // Required initializer when subclassing UIViewController
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override public func loadView() {
         webViewVM.loadWebPage()
         view = bennyView
         bennyView.navigationDelegate = self
     }
-    
+
     public func webView(_: WKWebView, didFinish _: WKNavigation!) {
         _ = EbtBalanceListener(webView: bennyView, delegate: delegate)
     }
@@ -60,13 +60,13 @@ public struct EbtBalanceViewControllerRepresentable: UIViewControllerRepresentab
     var orgId: String
     var temporaryLink: String
     var viewController: EbtBalanceViewController
-    
+
     public init(parameters: EbtBalanceParameters, delegate: EbtBalanceListenerDelegate?) {
         self.orgId = parameters.organizationId
         self.temporaryLink = parameters.temporaryLink
         self.viewController = EbtBalanceViewController(parameters: parameters, delegate: delegate)
     }
-    
+
     public func makeUIViewController(context _: Context) -> UIViewController {
         return viewController
     }

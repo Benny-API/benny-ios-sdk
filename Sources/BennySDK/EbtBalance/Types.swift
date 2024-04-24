@@ -26,17 +26,47 @@ public enum Environment: Codable {
 }
 
 public struct CopyToClipboardMessage: Codable {
-    var type = "CopyToClipboard"
-    var label: String
-    var text: String
+    public var type = "CopyToClipboard"
+    public var label: String
+    public var text: String
 }
 
+/*
+ * Deprecated and replaced by LinkResultMessage.
+ */
+
 public struct LinkSuccessMessage: Codable {
-    var type: String
-    var linkToken: String
+    public var type: String
+    public var linkToken: String
+}
+
+public struct LinkResultMessage: Codable {
+    public var type = "LinkResult"
+    public var result: LinkResult
+}
+
+public typealias LinkResult = LinkResultSuccess
+
+public struct LinkResultSuccess: Codable {
+    public var type = "LinkResultSuccess"
+    public var linkToken: String
+    public var accountId: String
+    public var accountHolder: AccountHolder
+}
+
+public struct AccountHolder: Codable {
+    public var name: String?
+    public var address: String?
+    public var balances: Balances
+    public var lastTransactionDate: String?
+}
+
+public struct Balances: Codable {
+    public var snap: Double?
+    public var cash: Double?
 }
 
 public struct OpenUrlMessage: Codable {
-    var type = "OpenUrlExternally"
-    var url: String
+    public var type = "OpenUrlExternally"
+    public var url: String
 }

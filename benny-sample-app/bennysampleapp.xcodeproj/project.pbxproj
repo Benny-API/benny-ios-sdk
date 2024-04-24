@@ -380,7 +380,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Benny-API/benny-ios-sdk.git";
 			requirement = {
-				branch = "ab-ebt-balance";
+				branch = "ab-on-link-result";
 				kind = branch;
 			};
 		};

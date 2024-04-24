@@ -8,9 +8,10 @@
 import Foundation
 import WebKit
 
-public protocol EbtBalanceListenerDelegate : AnyObject {
+public protocol EbtBalanceListenerDelegate: AnyObject {
     func onExit()
     func onLinkSuccess(linkToken: String)
+    func onLinkResult(result: LinkResultMessage)
 }
 
 public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
@@ -26,28 +27,34 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
         self.webView?.configuration.userContentController.add(self, name: "onCopyToClipboard")
         self.webView?.configuration.userContentController.add(self, name: "onLinkSuccess")
         self.webView?.configuration.userContentController.add(self, name: "onOpenUrl")
+        self.webView?.configuration.userContentController.add(self, name: "onLinkResult")
     }
-    
-    
+
     func onExit() {
         delegate?.onExit()
     }
-    
+
+    /* Deprecated in favor of onLinkResult
+     */
     func onLinkSuccess(linkToken: String) {
         delegate?.onLinkSuccess(linkToken: linkToken)
     }
-    
+
+    func onLinkResult(result: LinkResultMessage) {
+        delegate?.onLinkResult(result: result)
+    }
+
     func onOpenUrl(urlString: String) {
         guard let url = URL(string: urlString) else {
           return
         }
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
-    
+
     func onCopyToClipboard(text: String) {
         UIPasteboard.general.string = text
     }
-    
+
     func getJsonData<T: Decodable>(message: WKScriptMessage, type: T.Type) throws -> T {
         guard let jsonString = message.body as? String else {
              throw NSError(domain: "InvalidMessageError", code: 1, userInfo: [NSLocalizedDescriptionKey: "Message body is not a valid string."])
@@ -58,12 +65,18 @@ public class EbtBalanceListener: NSObject, WKScriptMessageHandler {
          }
         return try JSONDecoder().decode(T.self, from: jsonData)
     }
-    
-    
+
     public func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         switch message.name {
         case "onExit":
             self.onExit()
+        case "onLinkResult":
+            do {
+                let linkResultMessage = try getJsonData(message: message, type: LinkResultMessage.self)
+                self.onLinkResult(result: linkResultMessage)
+            } catch {
+                fatalError("Error getting link token.")
+            }
         case "onLinkSuccess":
             do {
                 let linkSuccessMessage = try getJsonData(message: message, type: LinkSuccessMessage.self)
