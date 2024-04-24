@@ -48,7 +48,7 @@ The `EbtBalanceListenerDelegate` is responsible for communicating to your iOS ap
 ```swift
 public protocol EbtBalanceListenerDelegate {
     func onExit()
-    func onLinkSuccess(linkToken: String)
+    func onLinkResult(result: LinkResult)
 }
 ```
 
