@@ -16,7 +16,6 @@ class BaseWebViewVM: ObservableObject {
             webView.isInspectable = true
         }
         #endif
-
     }
 
     func loadWebPage() {
