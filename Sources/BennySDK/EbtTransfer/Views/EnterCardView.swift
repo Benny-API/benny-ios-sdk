@@ -7,14 +7,14 @@
 
 import SwiftUI
 
-public struct EnterCardView: View {
-    @State private var cardNumber: String = ""
+struct EnterCardView: View {
+    @Binding private var cardNumber: String
     @State private var isValid: Bool = false
-
     @EnvironmentObject var router: Router
 
-    public var body: some View {
+    var body: some View {
         TransferBaseView(
+            inputText: $cardNumber,
             header: "Enter card number",
             subHeader: "Enter your EBT card number",
             primaryButtonText: "Next",
@@ -26,11 +26,7 @@ public struct EnterCardView: View {
         )
     }
 
-    public init() {
-        return
+    init(cardNumber: Binding<String>) {
+        self._cardNumber = cardNumber
     }
-}
-
-#Preview {
-    EnterCardView()
 }

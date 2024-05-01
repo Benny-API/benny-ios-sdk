@@ -8,10 +8,11 @@
 import SwiftUI
 
 public struct CheckBalanceFlow: View {
-    @EnvironmentObject var router: Router
-
+    @State var params: EbtTransferCheckBalanceParameters
+    @State var pin: String = ""
     public var body: some View {
         TransferBaseView(
+            inputText: $pin,
             header: "Check balance",
             subHeader: "Enter your EBT card PIN",
             primaryButtonText: "Check balance",
@@ -22,8 +23,8 @@ public struct CheckBalanceFlow: View {
             isPinEntry: true
         )
     }
-}
 
-#Preview {
-    CheckBalanceFlow()
+    public init(params: EbtTransferCheckBalanceParameters) {
+        self.params = params
+    }
 }

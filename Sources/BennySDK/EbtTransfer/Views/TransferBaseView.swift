@@ -38,18 +38,18 @@ extension View {
     }
 }
 
-public struct TransferBaseView: View {
+struct TransferBaseView: View {
     @State private var header: String
     @State private var subHeader: String
-    @State private var inputText: String = ""
+    @Binding private var inputText: String
     @State private var primaryButtonText: String
     @State private var getIsPrimaryButtonDisabled: (String) -> Bool
-    @State private var secondaryButtonText: String?
     @State private var primaryButtonAction: () -> Void
-    @State private var isPinEntry: Bool
+    @State private var secondaryButtonText: String?
     @State private var secondaryButtonAction: (() -> Void)?
+    @State private var isPinEntry: Bool
 
-    public var body: some View {
+    var body: some View {
         VStack(spacing: 20) {
             HStack {
                 Spacer()
@@ -121,7 +121,8 @@ public struct TransferBaseView: View {
         .navigationBarBackButtonHidden(true)
     }
 
-    public init(
+    init(
+        inputText: Binding<String>,
         header: String,
         subHeader: String,
         primaryButtonText: String,
@@ -131,6 +132,7 @@ public struct TransferBaseView: View {
         secondaryButtonAction: (() -> Void)?,
         isPinEntry: Bool?
     ) {
+        self._inputText = inputText
         self.header = header
         self.subHeader = subHeader
         self.primaryButtonText = primaryButtonText
@@ -160,6 +162,7 @@ public struct TransferBaseView: View {
 
 #Preview {
     TransferBaseView(
+        inputText: .constant("1234 1231 1231 1234"),
         header: "Enter card number",
         subHeader: "Enter your EBT card number",
         primaryButtonText: "Next",

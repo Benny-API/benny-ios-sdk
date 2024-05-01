@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-public struct ExitButton: View {
+struct ExitButton: View {
     // Action to perform when the button is tapped
     let action: () -> Void
-    public var body: some View {
+    var body: some View {
         VStack {
             Button(action: {
 
@@ -28,7 +28,7 @@ public struct ExitButton: View {
         }
     }
 
-    public init(action: @escaping () -> Void) {
+    init(action: @escaping () -> Void) {
         self.action = action
     }
 }

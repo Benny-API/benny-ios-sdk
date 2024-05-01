@@ -10,19 +10,25 @@ import SwiftUI
 public struct LinkCardFlow: View {
 
     @ObservedObject var router = Router()
+    @State var params: EbtTransferLinkCardParameters
+    @State var cardNumber: String = ""
 
     public var body: some View {
         NavigationStack(path: $router.navPath) {
-            EnterCardView()
+            EnterCardView(cardNumber: $cardNumber)
                 .navigationDestination(for: Router.Destination.self) {
                 destination in switch destination {
                     case .enterCard:
-                        EnterCardView()
+                    EnterCardView(cardNumber: $cardNumber)
                     case .confirmPin:
-                        ConfirmPinView()
+                    ConfirmPinView( cardNumber: $cardNumber, parameters: params)
                 }
             }
         }
         .environmentObject(router)
+    }
+
+    public init(parameters: EbtTransferLinkCardParameters) {
+        self.params = parameters
     }
 }

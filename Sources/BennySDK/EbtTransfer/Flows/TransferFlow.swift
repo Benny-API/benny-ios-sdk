@@ -8,8 +8,11 @@
 import SwiftUI
 
 public struct TransferFlow: View {
+    @State private var params: EbtTransferParameters
+    @State private var pin: String = ""
     public var body: some View {
         TransferBaseView(
+            inputText: $pin,
             header: "Approve transfer",
             subHeader: "Enter your EBT card PIN",
             primaryButtonText: "Transfer",
@@ -20,8 +23,8 @@ public struct TransferFlow: View {
             isPinEntry: true
         )
     }
-}
 
-#Preview {
-    TransferFlow()
+    public init(params: EbtTransferParameters) {
+        self.params = params
+    }
 }
