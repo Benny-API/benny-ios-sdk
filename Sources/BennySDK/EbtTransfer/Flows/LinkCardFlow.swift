@@ -8,27 +8,33 @@
 import SwiftUI
 
 public struct LinkCardFlow: View {
-
+    var parameters: EbtTransferLinkCardParameters
+    var onExit: () -> Void
+    var onLinkResult: (_ transferToken: String?, _ expiration: String?, _ errorDescription: String?) -> Void
     @ObservedObject var router = Router()
-    @State var params: EbtTransferLinkCardParameters
     @State var cardNumber: String = ""
 
     public var body: some View {
         NavigationStack(path: $router.navPath) {
-            EnterCardView(cardNumber: $cardNumber)
+            EnterCardView(cardNumber: $cardNumber, onExit: onExit)
                 .navigationDestination(for: Router.Destination.self) {
                 destination in switch destination {
                     case .enterCard:
-                    EnterCardView(cardNumber: $cardNumber)
+                    EnterCardView(cardNumber: $cardNumber, onExit: onExit)
                     case .confirmPin:
-                    ConfirmPinView( cardNumber: $cardNumber, parameters: params)
+                    ConfirmPinView(cardNumber: $cardNumber, parameters: parameters, onExit: onExit, onLinkResult: onLinkResult)
                 }
             }
         }
         .environmentObject(router)
     }
 
-    public init(parameters: EbtTransferLinkCardParameters) {
-        self.params = parameters
+    public init(
+        parameters: EbtTransferLinkCardParameters,
+        onExit: @escaping () -> Void,
+        onLinkResult: @escaping (_ transferToken: String?, _ expiration: String?, _ errorDescription: String?) -> Void) {
+        self.parameters = parameters
+        self.onExit = onExit
+        self.onLinkResult = onLinkResult
     }
 }

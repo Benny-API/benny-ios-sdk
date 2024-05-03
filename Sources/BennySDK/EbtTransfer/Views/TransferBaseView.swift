@@ -39,21 +39,25 @@ extension View {
 }
 
 struct TransferBaseView: View {
-    @State private var header: String
-    @State private var subHeader: String
+    var header: String
+    var subHeader: String
     @Binding private var inputText: String
-    @State private var primaryButtonText: String
-    @State private var getIsPrimaryButtonDisabled: (String) -> Bool
-    @State private var primaryButtonAction: () -> Void
-    @State private var secondaryButtonText: String?
-    @State private var secondaryButtonAction: (() -> Void)?
-    @State private var isPinEntry: Bool
+    var primaryButtonText: String
+    var getIsPrimaryButtonDisabled: (String) -> Bool
+    var primaryButtonAction: () async -> Void
+    var secondaryButtonText: String?
+    var secondaryButtonAction: (() -> Void)?
+    var isPinEntry: Bool
+    var onExit: () -> Void
+    @Binding var errorMessage: String
 
     var body: some View {
         VStack(spacing: 20) {
             HStack {
                 Spacer()
-                ExitButton(action: {print("button tapped")})
+                ExitButton(action: {
+                    onExit()
+                })
             }
 
             Text(header)
@@ -65,7 +69,7 @@ struct TransferBaseView: View {
                 .foregroundColor(Color(red: 108 / 255, green: 108 / 255, blue: 113 / 255))
                 .frame(height: 28)
 
-            VStack(spacing: 50) {
+            VStack(spacing: 18) {
                 if isPinEntry {
                     SecureField("", text: $inputText)
                         .font(.system(size: 18, weight: .regular, design: .default))
@@ -73,8 +77,10 @@ struct TransferBaseView: View {
                         .textFieldStyle(CustomTextFieldStyle())
                         .frame(width: 180)
                         .cornerRadius(8.0)
+                        .keyboardType(.numberPad)
                         .onChange(of: inputText) {
-                            newValue in if newValue.count > 4 {
+                            newValue in
+                            if newValue.count > 4 {
                                 inputText = String(newValue.prefix(4))
                             }
                         }
@@ -85,10 +91,17 @@ struct TransferBaseView: View {
                         .textFieldStyle(CustomTextFieldStyle())
                         .frame(width: 240)
                         .cornerRadius(8.0)
+                        .keyboardType(.numberPad)
                         .onChange(of: inputText) {
                             newValue in formatCardInput(newValue)
                         }
                 }
+
+                Text(errorMessage)
+                    .font(.custom("SF Pro", size: 16))
+                    .foregroundColor(Color(red: 218 / 255, green: 0, blue: 105 / 255))
+                    .multilineTextAlignment(.center)
+                    .textFieldStyle(CustomTextFieldStyle())
 
                 HStack {
                     if let secondaryButtonText = secondaryButtonText, !secondaryButtonText.isEmpty {
@@ -103,9 +116,11 @@ struct TransferBaseView: View {
                             .customTextStyle()
                     }
 
-                    Button(primaryButtonText, action: {
-                        primaryButtonAction()
-                    })
+                    Button(primaryButtonText) {
+                        Task {
+                            await primaryButtonAction()
+                        }
+                    }
                         .padding()
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -115,6 +130,7 @@ struct TransferBaseView: View {
                         .customTextStyle()
                 }
             }
+            Spacer()
         }
         .padding()
         .frame(maxWidth: .infinity)
@@ -123,16 +139,19 @@ struct TransferBaseView: View {
 
     init(
         inputText: Binding<String>,
+        errorMessage: Binding<String>,
         header: String,
         subHeader: String,
         primaryButtonText: String,
         getIsPrimaryButtonDisabled: @escaping (String) -> Bool,
-        primaryButtonAction: @escaping () -> Void,
+        primaryButtonAction: @escaping () async -> Void,
         secondaryButtonText: String?,
         secondaryButtonAction: (() -> Void)?,
-        isPinEntry: Bool?
+        onExit: @escaping () -> Void,
+        isPinEntry: Bool = false
     ) {
         self._inputText = inputText
+        self._errorMessage = errorMessage
         self.header = header
         self.subHeader = subHeader
         self.primaryButtonText = primaryButtonText
@@ -140,7 +159,8 @@ struct TransferBaseView: View {
         self.primaryButtonAction = primaryButtonAction
         self.secondaryButtonAction = secondaryButtonAction
         self.getIsPrimaryButtonDisabled = getIsPrimaryButtonDisabled
-        self.isPinEntry = isPinEntry ?? false
+        self.onExit = onExit
+        self.isPinEntry = isPinEntry
     }
 
     private func formatCardInput(_ newValue: String) {
@@ -154,15 +174,12 @@ struct TransferBaseView: View {
             inputText = filtered
         }
     }
-
-    private func formatPinInput(_ newValue: String) {
-        inputText = newValue.filter { $0.isNumber }
-    }
 }
 
 #Preview {
     TransferBaseView(
         inputText: .constant("1234 1231 1231 1234"),
+        errorMessage: .constant("Max attempts exceeded"),
         header: "Enter card number",
         subHeader: "Enter your EBT card number",
         primaryButtonText: "Next",
@@ -170,6 +187,7 @@ struct TransferBaseView: View {
         primaryButtonAction: { return },
         secondaryButtonText: "",
         secondaryButtonAction: {},
+        onExit: {print("exiting")},
         isPinEntry: false
     )
 }

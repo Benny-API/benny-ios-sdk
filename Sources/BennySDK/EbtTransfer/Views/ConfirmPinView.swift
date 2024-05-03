@@ -8,58 +8,72 @@
 import SwiftUI
 import UIKit
 
-private var ProductionBaseURL = "https://api-production.bennyapi.com"
-private var SandboxBaseURL = "https://api-sandbox.bennyapi.com"
-
 struct ConfirmPinView: View {
     @EnvironmentObject var router: Router
-    @State var params: EbtTransferLinkCardParameters
     @Binding var cardNumber: String
     @State var pin: String = ""
+    @State var errorMessage: String = ""
+    var parameters: EbtTransferLinkCardParameters
+    var onExit: () -> Void
+    var onLinkResult: (_ transferToken: String?, _ expiration: String?, _ errorDescription: String?) -> Void
 
     var body: some View {
         TransferBaseView(
             inputText: $pin,
+            errorMessage: $errorMessage,
             header: "Confirm PIN",
             subHeader: "Enter your EBT card PIN",
             primaryButtonText: "Confirm",
             getIsPrimaryButtonDisabled: { input in return input.count < 4 },
-            primaryButtonAction: { print("text") },
+            primaryButtonAction: { Task {
+                await exchangeTemporaryLink(pin: pin)
+            }},
             secondaryButtonText: "Edit Card",
             secondaryButtonAction: { router.navigateBack() },
+            onExit: onExit,
             isPinEntry: true
         )
     }
 
-    init(cardNumber: Binding<String>, parameters: EbtTransferLinkCardParameters) {
+    init( cardNumber: Binding<String>,
+     parameters: EbtTransferLinkCardParameters,
+     onExit: @escaping () -> Void,
+     onLinkResult: @escaping (_ transferToken: String?, _ expiration: String?, _ errorDescription: String?) -> Void
+    ) {
         self._cardNumber = cardNumber
-        self.params = parameters
+        self.parameters = parameters
+        self.onExit = onExit
+        self.onLinkResult = onLinkResult
     }
 
-    private func exchangeTemporaryLink(pin: String) async throws -> ExchangeTemporaryLinkResponse {
-        let baseUrl: String
-        let environment = params.environment ?? Environment.PRODUCTION
-        switch environment {
-        case Environment.SANDBOX:
-            baseUrl = ProductionBaseURL
-        case Environment.PRODUCTION:
-            baseUrl = SandboxBaseURL
-        default:
-            baseUrl = ProductionBaseURL
+    private func exchangeTemporaryLink(pin: String) async {
+        let result = await postExchangeTemporaryLinkRequest(
+            env: parameters.environment ?? Environment.PRODUCTION,
+            organizationId: parameters.organizationId,
+            request: ExchangeTemporaryLinkRequest(
+                temporaryLink: parameters.temporaryLink,
+                accountNumber: cardNumber,
+                pin: pin
+            ))
+
+        if case .success(let response) = result {
+            onLinkResult(response.transferToken, response.expiration, nil)
+        } else if case .failure(let error) = result {
+            switch error.code {
+            case .invalidCardInfo:
+                errorMessage = error.message
+            default:
+                onLinkResult(nil, nil, error.code.rawValue)
+            }
         }
-        let url = URL(string: baseUrl + "v1/ebt/transfer/link/exchange")!
-        let (data, _ ) = try await URLSession.shared.data(from: url)
-        let response = try JSONDecoder().decode(ExchangeTemporaryLinkResponse.self, from: data)
-        return response
     }
 }
 
 #Preview {
     ConfirmPinView(
         cardNumber: .constant("1235 1234 1234 1231 1233"),
-        parameters: EbtTransferLinkCardParameters(
-            organizationId: "",
-            environment: Environment.SANDBOX,
-            temporaryLink: ""
-        ))
+        parameters: EbtTransferLinkCardParameters(organizationId: "org", environment: Environment.PRODUCTION, temporaryLink: "temp_link"),
+        onExit: {},
+        onLinkResult: {_, _, _ in ()}
+    )
 }

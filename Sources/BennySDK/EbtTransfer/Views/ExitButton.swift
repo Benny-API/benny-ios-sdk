@@ -13,7 +13,7 @@ struct ExitButton: View {
     var body: some View {
         VStack {
             Button(action: {
-
+                action()
             }) {
                 // Label of the button
                 Image(systemName: "xmark")
