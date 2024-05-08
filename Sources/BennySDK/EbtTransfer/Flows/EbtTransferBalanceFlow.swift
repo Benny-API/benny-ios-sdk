@@ -1,5 +1,5 @@
 //
-//  CheckBalanceFlow.swift
+//  EbtTransferBalanceFlow.swift
 //
 //
 //  Created by Ariel Bong on 4/30/24.
@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-public struct CheckBalanceFlow: View {
+public struct EbtTransferBalanceFlow: View {
     @State var pin: String = ""
     @State private var errorMessage: String = ""
-    var params: EbtTransferCheckBalanceParameters
+    var params: EbtTransferBalanceParameters
     var onExit: () -> Void
     var onResult: (_ balance: Int?, _ error: String?) -> Void
 
@@ -30,7 +30,7 @@ public struct CheckBalanceFlow: View {
         )
     }
 
-    public init(paramaters: EbtTransferCheckBalanceParameters, onExit: @escaping () -> Void, onResult: @escaping (_ balance: Int?, _ error: String?) -> Void) {
+    public init(paramaters: EbtTransferBalanceParameters, onExit: @escaping () -> Void, onResult: @escaping (_ balance: Int?, _ error: String?) -> Void) {
         self.params = paramaters
         self.onExit = onExit
         self.onResult = onResult

@@ -1,5 +1,5 @@
 //
-//  LinkCard.swift
+//  EbtTransferLinkCardFlow.swift
 //
 //
 //  Created by Ariel Bong on 4/29/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct LinkCardFlow: View {
+public struct EbtTransferLinkCardFlow: View {
     var parameters: EbtTransferLinkCardParameters
     var onExit: () -> Void
     var onLinkResult: (_ transferToken: String?, _ expiration: String?, _ errorDescription: String?) -> Void
