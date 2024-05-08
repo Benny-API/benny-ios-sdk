@@ -1,5 +1,5 @@
 //
-//  TransferFlow.swift
+//  EbtTransferFlow.swift
 //
 //
 //  Created by Ariel Bong on 4/30/24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct TransferFlow: View {
+public struct EbtTransferFlow: View {
     var params: EbtTransferParameters
     @State var pin: String = ""
     @State var errorMessage: String = ""

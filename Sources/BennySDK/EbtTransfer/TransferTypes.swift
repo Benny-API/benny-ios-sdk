@@ -9,7 +9,7 @@ import Foundation
 
 public typealias EbtTransferLinkCardParameters = EbtBalanceParameters
 
-public struct EbtTransferCheckBalanceParameters: Codable {
+public struct EbtTransferBalanceParameters: Codable {
     public var organizationId: String
     public var transferToken: String
     public var environment: Environment
@@ -26,7 +26,7 @@ public struct EbtTransferParameters: Codable {
     public var environment: Environment
     public var idempotencyKey: String
     public var amount: Int
-    public init(organizationId: String, transferToken: String, environment: Environment, idempotencyKey: String, amount: Int) {
+    public init(organizationId: String, transferToken: String,  idempotencyKey: String, amount: Int, environment: Environment) {
         self.organizationId = organizationId
         self.transferToken = transferToken
         self.environment = environment
