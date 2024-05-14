@@ -13,9 +13,8 @@ Install by adding https://github.com/Benny-API/benny-ios-sdk as a dependency to 
 
 ## EBT Balance Link Flow
 
-The Ebt Balance Link Flow allows users to link their EBT account, verifying the account, and
-returning a tokenized representation of the credentials for fetching balance and transaction
-information.
+The Ebt Balance Link Flow allows users to link their EBT account, verify the account, and
+returning a tokenized representation of the credentials for fetching balance and transaction information.
 
 ### Required IDs
 You'll need an `organizationId`, the ID representing your organization, along with
@@ -54,18 +53,13 @@ public protocol EbtBalanceListenerDelegate {
 
 ## EBT Transfer 
 
-The Ebt Transfer product is comprised of three flows: EbtTransferLinkCardFlow, EbtTransferBalanceFlow, and the EbtTransferFlow. 
+The EBT Transfer product consists of `EbtTransferLinkCardFlow`, `EbtTransferBalanceFlow`, and the `EbtTransferFlow`. Once a user successfully links their EBT card through the `EbtTransferLinkCardFlow`, a transfer token is created. The transfer token allows for EBT balance checks through the `EbtTransferBalanceFlow` and EBT cash transfers through the `EbtTransferBalanceFlow`.
 
-Once a user successfully links their Ebt card through the EbtTransferLinkCardFlow and a transfer token is created, the EbtTransferBalanceFlow and EbtTransferFlow can be used. The EbtTransferBalanceFlow is used to check a user's balance. The EbtTransferBalanceFlow is used to initiate a transfer. 
+### Link Card Flow 
+The `EbtTransferLinkCardFlow` is initialized with an organization ID and a single-use temporary link generated serverside via a call to Benny's API.
 
-### EBT Transfer Link Card Flow 
-
-#### Integration 
-
-Similar to the Ebt Balance Link Flow, the Ebt Transfer Link Card Flow is contained in a view, `EbtTransferLinkCardFlow`, that is initialized with an organization ID and single-use temporary link.
-
-Callbacks (i.e., `onExit` and `onLinkResult`) are responsible for communicating to your app when the user wants to
-exit the flow and when a link result is obtained. A successful link result returns a transfer token and expiration date for the transfer token. A failed link result returns an error message. 
+Callbacks (i.e., `onExit` and `onLinkResult`) are responsible for communicating to your app when the user wants to exit the flow and when a link result is obtained. A
+successful link result returns a transfer token along with its expiration date. A failed link result returns an error message. 
 
 ```swift
 EbtTransferLinkCardFlow(parameters:
@@ -79,13 +73,11 @@ EbtTransferLinkCardFlow(parameters:
 )
 ```
 
-### EBT Transfer Balance Flow 
+### Balance Flow 
+The `EbtTransferBalanceFlow` is initialized with an organization ID and the transfer token obtained earlier.
 
-#### Integration 
-
-The Ebt Transfer Balance Flow is contained in a fullscreen view, `EbtTransferBalanceFlow`, that is initialized with an organization ID and transfer token.
-
-Callbacks (i.e., `onExit` and `onResult`) are responsible for communicating to your app when the user wants to exit the flow and when a result is obtained. A successful result returns a balance. A failed balance result returns an error message. 
+Callbacks (i.e., `onExit` and `onResult`) are responsible for communicating to your app when the user wants to
+exit the flow and when a result is obtained. A successful result returns the customer's cents-denominated EBT cash balance, while a failed link result returns an error message.
 
 ```swift
 EbtTransferBalanceFlow(parameters:
@@ -99,13 +91,11 @@ EbtTransferBalanceFlow(parameters:
 )
 ```
 
-### EBT Transfer Flow 
+### Transfer Flow
+The `EbtTransferFlow` is initialized with an organization ID, the transfer token obtained earlier, a cents-denominated amount that the customer wishes to transfer, and an idempotency key.
 
-#### Integration 
-
-The Ebt Transfer Flow is contained in a fullscreen view, `EbtTransferFlow`, that is initialized with an organization ID and transfer token.
-
-Callbacks (i.e., `onExit` and `onResult`) are responsible for communicating to your app when the user wants to exit the flow and when a result is obtained. A successful result returns successfully. A failed transfer result returns an error message. 
+Callbacks (i.e., `onExit` and `onResult`) are responsible for communicating to your app when the user wants to exit the flow and when a transfer result is obtained. 
+A successful result invokes the `onResult` callback with no value, while a failed result returns an error message.
 
 ```swift
 EbtTransferFlow(parameters:
@@ -122,7 +112,7 @@ EbtTransferFlow(parameters:
 ```
 
 ### Environments 
-Set the environment to Environment.SANDBOX in your EbtBalanceParameters to integrate with the Benny sandbox environment, or omit to default to the production environment.
+Set the environment to `Environment.SANDBOX` in your EbtBalanceParameters to integrate with the Benny sandbox environment or omit to default to the production environment.
 
 ## Author
 [Benny API Inc.](bennyapi.com)
