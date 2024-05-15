@@ -4,3 +4,4 @@ swiftpm/
 .swiftpm/
 build/
 .build/
+*.pbxproj
